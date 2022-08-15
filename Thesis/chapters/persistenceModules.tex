@@ -1,0 +1,475 @@
+\chapter{Persistence Modules}\label{chap:persistenceModules}
+\section{Basic Properties}\label{sec:basicProperties}
+Let $\field$ be a field and $\category$ a small category. 
+Let $\Vect$ denote the category of vector fields over $\field$.
+\begin{definition}
+    A \textdef{persistence module} (over $\category$), or simply a \textdef{$\category$-module}, is a functor $M\colon \category\to\Vect$.
+    If $\dim M_x<\infty$ for all $x\in\ob(\category)$, then we say that $M$ is pointwise finite dimensional (pfd).
+    A \textdef{morphism} of persistence modules is a natural transformation between functors.
+\end{definition}
+Informally, given a directed graph, one can think of a persistence module as simply replacing the vertices with vector spaces and edges with linear maps in a reasonable way.
+\begin{example}\label{example:persistenceModule}
+    Let $\category$ be the category  \begin{tikzcd} 1 \arrow[r, "\alpha", shift left] \arrow[r, "\beta"', shift right] & 2\end{tikzcd}.
+    Then a persistence module $M$ over $\category$ is given by
+    \begin{center}
+        \begin{tikzcd}
+            \field \arrow[r, "{[1,0]^T}", shift left] \arrow[r, "{[0,1]^T}"', shift right] & \field^2
+        \end{tikzcd}.
+    \end{center}
+    Another persistence module $M'$ is given by
+    \begin{center}
+        \begin{tikzcd}
+            \field^2 \arrow[r, "\SmallMatrix{1}{0}{0}{1}", shift left] \arrow[r, "\SmallMatrix{0}{0}{1}{0}"', shift right] & \field^2
+        \end{tikzcd}.
+    \end{center}
+    A morphism $\eta:M\to M'$ is given by $\eta_1=[1,0]^T\colon\field\to\field^2$ and $\eta_2=\SmallMatrix1001\colon\field^2\to\field^2$. It is straightforward to verify that
+    \begin{center}
+        \begin{tikzcd}
+            \field \arrow[r, "{[1,0]^T}", shift left] \arrow[r, "{[0,1]^T}"', shift right] \arrow[d, "{[1,0]^T}"']         & \field \arrow[d, "\SmallMatrix{1}{0}{0}{1}"] \\
+            \field^2 \arrow[r, "\SmallMatrix{1}{0}{0}{1}", shift left] \arrow[r, "\SmallMatrix{0}{0}{1}{0}"', shift right] & \field^2                                    
+        \end{tikzcd}
+    \end{center}
+    commutes.
+\end{example}
+\begin{example}\label{example:intervalModule}
+    If $\category$ is a totally ordered set (such as $\Nb,\Zb,\Rb$) then an \textdef{interval} $[a,b]$ is the set $\{x\in\ob(\category)\mid a\leq x\text{ and }x\leq b\}$.
+    An \textdef{interval module} is a persistence module $\field^{[a,b]}:\category\to\Vect$ such that
+    \[ \field^{[a,b]}_x=\begin{cases}
+        \field,&x\in[a,b]\\
+        0,&\text{otherwise}
+    \end{cases}\qand\field^{[a,b]}_{x\to y}=\begin{cases}
+        \id_{\field},&a\leq x\text{ and } y\leq b\\
+        0,&\text{otherwise}
+    \end{cases}. \]
+\end{example}
+The collection of all persistence modules over $\category$ together with natural transformations forms a functor category $\RepP$.
+Since $\Vect$ is an abelian category, it follows that $\RepP$ is abelian as well \cite[p. 199]{maclane_1978}.
+Explicitly, if $M, M'\in\ob(\RepP)$ then
+\begin{itemize}
+    \item $\Hom_{\RepP}(M,M')$ is an abelian group (and also a $\field$-vector space), and composition of morphisms is bilinear; 
+    \item $\RepP$ has a zero object which is the persistence module which assigns the trivial vector space to every $x\in\ob(\category)$ and the zero map to every $\alpha\in\mor(\category)$;
+    \item the \textdef{biproduct} of $M$ and $M'$ in $\RepP$, denoted by $M\oplus M'$, is the component-wise direct sum
+        \[(M\oplus M')_x= M_x\oplus M'_x\qand (M\oplus M')_\alpha=M_\alpha\oplus M'_\alpha,  \]
+        for $x\in\ob(\category)$ and $\alpha\in\mor(\category)$.
+    \item $\RepP$ has all kernels and cokernels. For $\eta\colon M\to M'$ the \textdef{kernel}, \textdef{cokernel} and \textdef{image} of $\eta$ are the persistence modules given by $(\ker\eta)_x=\ker\eta_x, (\im\eta)_x=\im\eta_x$ and $(\coker\eta)_x=\coker\eta_x$, respectively.
+    \item a morphism that is both \textdef{epi} and \textdef{monic} is an \textdef{isomorphism}.
+\end{itemize}
+We say that $M$ is \textdef{indecomposable} if every decomposition $M=M'\oplus M''$ implies that either $M'$ or $M''$ is trivial.
+Otherwise, we say that $M$ is \textdef{decomposable}.
+\begin{example}\label{example:indecomposableModule}
+    Let $\category$ be the category $1\to 2$, $M'$ the $\category$-module $\field\xrightarrow{1}\field$ and $M''$ the $\category$-module $0\to\field$.
+    It is easy to see that $M'$ and $M''$ are indecomposable since they are indecomposable pointwise.
+    Their direct sum $M'\oplus M''$ is the $\category$-module $\field\xrightarrow{[1,0]^T}\field^2$.
+\end{example}
+\begin{example}
+    If $\category$ is a totally ordered set, then interval modules are precisely the indecomposable persistence modules (see \cite[Section 4]{BotnanCrawley_2018} for the proof).
+\end{example}
+Let $M,M'\in\ob(\RepP)$. If $M'_x\subset M_x$ and $M_\alpha\vert_{M'_x}=M'_\alpha$ for all $x\in\ob(\category)$ and $\alpha\colon x\to y$ then we say that $M'$ is a \textdef{submodule} of $M$, and we write $M'\subseteq M$.
+If $M'\subseteq M$ then the \textdef{quotient module} $M/M'$ is given by $(M/M')_x=M_x/M'_x$ and $(M/M')_\alpha$ is the unique map which makes the following diagram
+\begin{center}
+    \begin{tikzcd}
+        M'_x \arrow[r, "\iota_1"] \arrow[d, "M'_\alpha"] & M_x \arrow[r, "\pi_1"] \arrow[d, "M_\alpha"] & \coker\iota_1=M_x/M'_x \arrow[d, "(M/M')_\alpha", dashed] \\
+        M'_y \arrow[r, "\iota_2"]                        & M_y \arrow[r, "\pi_2"]                       & \coker\iota_2 =M_y/M'_y                                  
+    \end{tikzcd}
+\end{center}
+commute, where $\iota_1\colon M_x'\to M_x, \iota_2\colon M_y'\to M_y$ are the inclusion maps and $\pi_1\colon M_x\to M_x/M_x', \pi_2\colon M_y'\to M_y$ are the projection maps. This map exists and is unique since $\pi_2 M_\alpha\iota_1=\pi_2\iota_2 M'_\alpha=0$ and by the universal property of the cokernel.
+
+\section{The Tensor Product}\label{sec:theTensorProduct}
+To define the tensor product $N\tensor M$ for $M\in\ob(\RepP)$ and $N\in\ob(\RepPop)$, where $\categoryop$ denotes the opposite category, we define an algebra $\pathalgebra$ and show that one can view a persistence module over $\category$ as a left module over $\pathalgebra$ (and a persistence module over $\categoryop$ as a right $\pathalgebra$-module).
+We then explicitly construct the tensor product of two persistence modules.
+
+For a morphism $\alpha\colon a\to b$ in $\category$, let $s(\alpha)=a$ be its \textdef{source} and $t(\alpha)=b$ its \textdef{tail}.
+\begin{definition}
+    The path algebra $\pathalgebra$ of $\category$ is the $\field$-vector space whose basis is the set of all morphisms in $\category$ and the product of two basis elements is defined by
+    \[ \alpha\cdot\beta=\begin{cases}
+        \alpha\circ\beta,&\text{if }t(\beta)=s(\alpha)\\
+        0,&\text{otherwise}
+    \end{cases}. \]
+    
+\end{definition}
+\begin{example}\label{example:polynomialPathAlgebra}
+    Let $\category$ be the category
+    \begin{center}
+        \begin{tikzcd}
+            1 \arrow["\alpha"', loop, distance=2em, in=35, out=325]
+        \end{tikzcd}.
+    \end{center}
+    Then the basis of $\pathalgebra$ is $\{e_1,\alpha,\alpha^2,\cdots\}$, where $e_1$ is the stationary path, and so $\pathalgebra\cong\field[t]$.
+\end{example}
+
+\begin{example}\label{example:pathAlgebra}
+    Let $\category$ be the category
+    \begin{center}
+        \begin{tikzcd}
+            1 \arrow[r, "\alpha", shift left] \arrow[r, "\beta"', shift right] & 2
+        \end{tikzcd}
+    \end{center}
+    Then the basis of $\pathalgebra$ is $\{e_1, e_2,\alpha,\beta\}$ with multiplication table given by
+    \begin{center}
+        \begin{tabular}{c|cccc}
+            &$e_1$&$e_2$&$\alpha$&$\beta$\\
+            \hline
+            $e_1$&$e_1$&0&0&0\\
+            $e_2$&0&$e_2$&$\alpha$&$\beta$\\
+            $\alpha$&$\alpha$&0&0&0\\
+            $\beta$&$\beta$&0&0&0
+        \end{tabular}
+    \end{center}
+    So we have an isomorphism $\pathalgebra\cong\begin{bmatrix}\field&0\\\field^2&\field\end{bmatrix}$ induced by
+    \[ e_1\mapsto\begin{pmatrix}1&0\\(0,0)&0\end{pmatrix},\quad e_2\mapsto\begin{pmatrix}0&0\\(0,0)&1\end{pmatrix},\quad\alpha\mapsto\begin{pmatrix}0&0\\(1,0)&0\end{pmatrix},\quad \beta\mapsto\begin{pmatrix}0&0\\(0,1)&0\end{pmatrix}. \]
+    So, for example $\alpha e_1=\alpha$ but $e_1\alpha=0$, as desired.
+\end{example}
+An \textdef{embedding} of categories is a functor that is fully faithful and injective on objects.
+The following lemma shows that we can embed $\RepP$ inside $\Mod{\pathalgebra}{}$, the category of left $\pathalgebra$-modules, justifying the use of the word 'module' in the name of persistence module.
+
+\begin{lemma}\label{lemma:repsAndModules}
+    The map $M\mapsto\bigoplus_{x\in\ob(\category)}M_x$  defines a functor $F\colon \RepP\to\Mod{\pathalgebra}{}$.
+    Moreover, $F$ is an embedding of categories.
+\end{lemma}
+\begin{proof}
+    Let $M\in\ob(\RepP)$ and $m=\sum_{x\in\ob(\category)}m_x\in\bigoplus_{x\in\ob(\category)}M_x$ where $m_x\neq 0$ for finitely many $x\in\ob(\category)$.
+    Then for $\alpha\in\mor(\category)$ define 
+    \[ \alpha\cdot m\defeq M_\alpha(m_{s(\alpha)})\in M_{t(\alpha)}\subseteq \bigoplus_{x\in\ob(\category)}M_x.\]
+    This gives $\bigoplus_{x\in\ob(\category)}M_x$ the structure of a left $\pathalgebra$-module.
+    Let $M,M'\in\ob(\RepP)$ and $\eta\colon M\to M'$. Then
+    \[ \tilde{\eta}\defeq \bigoplus_{x\in\ob(\category)}\eta_x\colon \bigoplus_{x\in\ob(\category)}M_x\to \bigoplus_{x\in\ob(\category)}M'_x \]
+    is $\field$-linear. 
+    We claim that it is also a $\pathalgebra$-module homomorphism, i.e. $\tilde{\eta}(\alpha m)=\alpha\tilde{\eta}(m)$ for $\alpha\in\mor(\category)$.
+    Indeed, for $\alpha\colon a\to b$ we have that
+    \[ \alpha\tilde{\eta}\left(\sum_{x\in\ob(\category)}m_x\right)=\alpha\sum_{x\in\ob(\category)}\eta_x(m_x)=M'_\alpha(\eta_a(m_a))\stackrel{(*)}{=}\eta_b(M_\alpha(m_a))=\tilde{\eta}(\alpha m), \]
+    where $(*)$ holds since $\eta$ is a natural transformation.
+    Thus, $F$ is a functor.
+
+    The map $\eta\mapsto F(\eta)$ is injective since $F(\eta)=0$ implies $\eta=0$, and it is surjective since a $\pathalgebra$-module homomorphism $f\colon F(M)\to F(M')$ defines a natural transformation $\eta_x=f\vert_{M_x}$.
+    This is well-defined since $f(e_x m)=f(e_x^2 m)=e_x f(e_x m)\in M_x$, so $f\vert_{M_x}\colon M_x\to M'_x$.
+    Thus, $F$ is fully faithful.
+    Moreover, if $F(M)=0$, then $M_x=0$ for all $x\in\ob(C)$ and it follows that $M=0$, so $F$ is injective on objects of $\RepP$.
+\end{proof}
+\begin{remark}
+    The functor in Lemma \ref{lemma:repsAndModules} is in fact an equivalence of categories when $\category$ is finite (see \cite[Theorem III.1.6]{assemSkowronskiSimson_2006} for the details), but it fails to be essentially surjective when $\category$ is infinite.
+\end{remark}
+\begin{example}
+    Let $\category$ be the category from Example \ref{example:pathAlgebra}.
+    Then $\pathalgebra\cong\begin{bmatrix}
+        \field&0\\
+        \field^2&\field
+    \end{bmatrix}$.
+    Let $X$ be a left $\pathalgebra$-module and let $M$ be the $\category$ module
+    \begin{tikzcd}
+        e_1X \arrow[r, "\varphi_\beta"', shift right] \arrow[r, "\varphi_\alpha", shift left] & e_2X
+    \end{tikzcd}
+    where $\varphi_\alpha(e_1 m)=\alpha m$ and $\varphi_\beta(e_1 m)=\beta m$ for $m\in X$.
+    This is well-defined since $\varphi_\alpha(m)=\alpha m=e_2\alpha m\in e_2 X$ and similarly for $\varphi_\beta$.
+    Then $F(M)$ is the $\pathalgebra$-module $e_1X\oplus e_2X$ with the left action given by
+    \[ \begin{pmatrix}
+        a&0\\
+        (b,c)& d
+    \end{pmatrix}\begin{pmatrix}
+        m_1\\m_2
+    \end{pmatrix}=\begin{pmatrix}
+        am_1\\
+        b \alpha m_1+c \beta m_1+dm_2
+    \end{pmatrix}. \]
+    Since
+    \[ \begin{pmatrix}
+        1&0\\(0,0)&0
+    \end{pmatrix}\begin{pmatrix}
+        a&0\\(b,c)&d
+    \end{pmatrix}=\begin{pmatrix}
+        a&0\\0&0
+    \end{pmatrix}=ae_1 \]
+    and
+    \[ \begin{pmatrix}
+        0&0\\(0,0)&1
+    \end{pmatrix}\begin{pmatrix}
+        a&0\\(b,c)&d
+    \end{pmatrix}=\begin{pmatrix}
+        0&0\\(b,c)&d
+    \end{pmatrix}=b\alpha+c\beta+de_2 \]
+    it follows that $\begin{pmatrix}e_1 A m\\ e_2 A m\end{pmatrix}=A\begin{pmatrix}e_1 m\\ e_2 m\end{pmatrix}$ for $A\in\pathalgebra$ and so $X\to F(M), m\mapsto\begin{pmatrix}e_1m\\ e_2m\end{pmatrix}$ is a $\pathalgebra$-module isomorphism.
+    Thus, the functor $F:\RepP\to\Mod{\pathalgebra}{}, M\to\bigoplus_{x\ob(\category)}M_x$ is essentially surjective and so an equivalence of categories.
+\end{example}
+
+
+Let $M\in\ob(\RepP)$ and $N\in\ob(\RepPop)$.
+In light of Lemma \ref{lemma:repsAndModules}, we will slightly abuse notation, and identify a persistence module $M$ with the left $\pathalgebra$-module $\bigoplus_{x\in\ob(C)}M_x$.
+Similarly, we identify $N$ with the left $\pathalgebraop$-module $\bigoplus_{x\in\ob(\category)}N_x$ (which is the same as a right $\pathalgebra$-module by defining $n\cdot\alpha\defeq\alpha^{\op}\cdot n$). 
+
+Let $V$ be any $\field$-vector space. 
+We say that a map $\varphi\colon N\times M\to V$ is \textdef{$\category$-balanced} if it is $\field$-bilinear and $\varphi(n,\alpha m)=\varphi(\alpha^{\op}n, m)$.
+For fixed $M$ and $N$, the collection of all $\category$-balanced maps out of $N\times M$ forms a category $\comma{N\times M}{\Vect}$: if
+\[ \varphi\colon N\times M\to V\qand \psi\colon N\times M\to W \]
+are $\category$-balanced, then a morphism $\varphi\to \psi$ is a $\field$-linear map $f\colon V\to W$ which makes the following diagram
+\begin{center}
+    \begin{tikzcd}
+        &  & V \arrow[dd, "f"] \\
+        N\times M \arrow[rru, "\varphi"] \arrow[rrd, "\psi"] &  &                   \\
+        &  & W                
+    \end{tikzcd}
+\end{center}
+commute.
+An initial object in this category is called a \textdef{tensor product} of $M$ and $N$.
+We show that the tensor product exist by explicitly constructing one.
+\begin{proposition}
+    A tensor product of $M\in\ob\left(\RepP\right)$ and $N\in\ob\left(\RepPop\right)$ exists and is unique up to isomorphism.
+\end{proposition}
+\begin{proof}
+    Let $F$ be the free vector space generated by the set $N\times M$ and $R$ be the subspace of $F$ generated by all elements of the following types
+    \begin{align*}
+        (n,m+m')-&(n,m)-(n, m')\\
+        (n+n', m)-&(n,m)-(n',m)\\
+        (cn, m)-&(n, cm)-c(m,n)\\
+        \left(n,\alpha m\right)&-\left(\alpha^{\op}n, m\right)
+    \end{align*}
+    for $m,m'\in M$, $n,n'\in N$, $c\in\field$ and $\alpha\in\mor(\category)$.
+    We have a canonical injection $\iota\colon M\times N\to F$ and a canonical projection $\pi\colon F\to F/R$.
+    Taking their composition we get the map
+    \[ \varphi=\pi\iota\colon N\times M\to F/R. \]
+    By construction, $\varphi$ is $\category$-balanced. 
+    We claim that it is a tensor product.
+    
+    Let $V$ be a $\field$-vector space and $\psi\colon M\times N\to V$ be $\category$-balanced.
+    By the universal property of $F$ there is an induced $\field$-linear map $h\colon F\to V$ making the following diagram commute:
+    \begin{center}
+        \begin{tikzcd}
+            &  & F \arrow[dd, "h"] \\
+            N\times M \arrow[rrd, "\psi"] \arrow[rru, "\iota", hook] &  &\\
+            &  & V                
+        \end{tikzcd}
+    \end{center}
+    Since $\psi$ is $\category$-balanced, $R\subseteq\ker h$. 
+    Hence, by the universal property of quotients there is linear map $g:F/R\to V$ such that the diagram
+    \begin{center}
+        \begin{tikzcd}
+            &  & F/R \arrow[dd, "g"] \\
+            F \arrow[rrd, "\psi"] \arrow[rru, "\pi", two heads] &  &                           \\
+            &  & V                        
+        \end{tikzcd}
+    \end{center}
+    commutes. 
+    Since $\varphi=\pi\iota$ it follows that the diagram
+    \begin{center}
+        \begin{tikzcd}
+            &  & F \arrow[dd, "h"] \arrow[rrd, "\pi", two heads] &  &                      \\
+            N\times M \arrow[rrd, "\psi"] \arrow[rru, "\iota", hook] \arrow[rrrr, "\varphi", bend left=49, shift left=3] &  &                                               &  & F/R \arrow[lld, "g"] \\
+            &  & V                                             &  &                     
+        \end{tikzcd}
+    \end{center}
+    commutes. 
+    suppose that $g'\colon F/R\to V$ is another linear map which makes the above diagram commute. 
+    Then $g'\pi\iota=g'\varphi=\psi=g\pi\iota=h\iota$. 
+    By uniqueness of $h$ it follows that $g'\pi=h=g\pi$ and since $\pi$ is an epimorphism, we have $g=g'$.
+    Thus $g$ is unique.
+    
+    We conclude that $(\varphi,F/R)$ is a tensor product of $M$ and $N$. 
+    Since it is an initial object in the category $\comma{N\times M}{\Vect}$, it must be unique up to isomorphism.
+\end{proof}
+We call $(\varphi, F/R)$ \textdef{the} tensor product of $M$ and $N$. 
+The vector space $F/R$ is denoted by $N\tensor M$ and for $y\in M, x\in N$ we write $\varphi(x,y)=x\otimes y$.
+
+Let $M_1,M_2\in\ob\left(\RepP\right)$, $N_1,N_2\in\ob\left(\RepPop\right)$, $\eta\colon M_1\to M_2$ and $\theta\colon N_1\to N_2$. 
+Then the map $N_1\times M_1\to N_2\tensor M_2$ given by $(x,y)\mapsto \eta(x)\otimes \theta(y)$ is $\category$-balanced and so there is a unique linear map $\eta\otimes \theta\colon N_1\tensor M_1\to N_2\tensor M_2$ that send $x\otimes y$ to $\eta(x)\otimes \theta(y)$.
+Hence, the tensor product defines a functor $\RepPop\times \RepP\to\Vect$.
+
+\begin{example}\label{example:tensorProduct}
+   Let $\category$ be the same as in Example \ref{example:pathAlgebra},
+   $M$ the persistence module
+   \begin{center}
+        \begin{tikzcd}
+            \field \arrow[r, "{[1,0]^T}", shift left] \arrow[r, "{[0,1]^T}"', shift right] & \field^2
+        \end{tikzcd}
+   \end{center}
+   over $\category$ and $N$ the persistence module
+   \begin{center}
+        \begin{tikzcd}
+            \field & \field \arrow[l, "1"', shift right] \arrow[l, "0", shift left]
+        \end{tikzcd}
+   \end{center}
+   over $\categoryop$. 
+   Let $\varepsilon_1$ and  $(\varepsilon_2, \varepsilon_3)$ be a basis of $M_1$ and $M_2$ respectively.
+   Similarly, let $\delta_1, \delta_2$ be a basis of $N_1$ and $N_2$ respectively.
+   To compute the tensor product we need to quotient $\Span\{\delta_1\otimes\varepsilon_1,\delta_2\otimes\varepsilon_2,\delta_2\otimes\varepsilon_3\}$ by the relations induced by morphisms in $\category$.
+   Namely,
+   \begin{align*}
+    \delta_2\otimes\alpha\varepsilon_1-\alpha^{\op}\delta_2\otimes\varepsilon_1&=\delta_2\otimes\varepsilon_2-\delta_1\otimes\varepsilon_1\\
+    \delta_2\otimes\beta\varepsilon_1-\beta^{\op}\delta_2\otimes\varepsilon_1&=\delta_2\otimes\varepsilon_3-0
+   \end{align*}
+   and so,
+   \[ N\tensor M=\Span\{\delta_1\otimes\varepsilon_1,\delta_2\otimes\varepsilon_2,\delta_2\otimes\varepsilon_3\}/(\delta_2\otimes\varepsilon_2-\delta_1\otimes\varepsilon_1,\delta_2\otimes\varepsilon_3)\cong\field \]
+   
+   Alternatively, we can compute it using the path algebra of Example \ref{example:pathAlgebra}.
+   Then $M\cong\begin{bmatrix}\field&0\\\field^2&0\end{bmatrix}=\pathalgebra\cdot e_1$ as a left $\pathalgebra$-module and so
+   \[ N\tensor M\cong N\otimes_{\pathalgebra} \pathalgebra\cdot e_1=N\cdot e_1=\field. \]
+\end{example}
+\begin{lemma}\label{lemma:tensorRightExact}
+    For $N\in\ob(\RepPop)$, the functor $N\tensor -:\RepP\to\Vect$ is right exact
+\end{lemma}
+\begin{proof}
+    Let 
+    \begin{equation}\label{eq:exactSeq}
+        M\xrightarrow{\eta} M'\xrightarrow{\theta} M''\to 0
+    \end{equation}
+    be an exact sequence of persistence modules over $\category$. 
+    We want to show that
+    \begin{equation}\label{eq:tensorRightExact}
+        N\tensor M\xrightarrow{\id_N\otimes\eta}N\tensor M'\xrightarrow{\id_N\otimes\theta}N\tensor M''\to 0
+    \end{equation}
+    is exact.
+    For all $n\in N$ and $m\in M$ we have that $n\otimes(\theta\eta)(m)=0$ so $\im(\id_N\otimes\eta)\subseteq\ker(\id_N\otimes\theta)$, and we have an induced map
+    \[ \phi:N\tensor M'/\im(\id_N\otimes\eta)\to N\tensor M''. \]
+    To show that (\ref{eq:tensorRightExact}) is exact, it suffices to prove that $\phi$ is an isomorphism.
+    We show this by constructing an inverse map.
+    For every $m\in M''$, choose $m'\in M'$ such that $\theta(m')=m$ and define
+    \[ N\times M''\to N\otimes M'/\im(\id_N\otimes\eta),\, (n,m)\mapsto n\otimes m'. \]
+    This map is independent of the choice of $m'$, since if $m''\in M'$ is another element such that $\theta(m'')=m$ then $m''-m'\in\im\eta$ by the exactness of (\ref{eq:exactSeq}) and so
+    \[ n\otimes m''-n\otimes m'=n\otimes(m''-m')\in\im(\id_N\otimes \eta). \]
+    Since the map is $\category$-balanced it induces a map $\psi:N\tensor M''\to N\tensor M'/\im(\id_N\otimes \eta)$.
+    Then $(\psi\phi)(n\otimes m)=\psi(n\otimes\theta(m))=n\otimes m$ and $(\phi\psi)(n\otimes m)=\phi(n\otimes m')=n\otimes m$ and so $\phi$ is an isomorphism.
+\end{proof}
+
+\section{Duality}\label{sec:duality}
+Pointwise duality with the field $\field$ of a persistence module $M\colon \category\to\Vect$ gives a persistence module $DM\colon\categoryop\to\Vect$.
+In this section we show that duality is a contravariant exact functor and satisfies $D^2M\cong M$ if $M$ is a pfd.
+If $U,V$ are $\field$-vector spaces and $T\colon U\to V$ then we denote $\Hom_{\field}(V,\field)$ by $V^*$ and the map $U^*\to V^*, f\mapsto f\circ T$ by $T^*$.
+\begin{lemma}\label{lemma:dualityIsExact}
+    Pointwise duality defines a contravariant exact functor $D\colon\RepP\to\RepPop$
+\end{lemma}
+\begin{proof}
+    Dualizing each vector space and linear map in $M$ we get
+    \[ (DM)_x={M_x}^*\quad(DM)_{\alpha^{\op}}={M_\alpha}^*\colon M_y^*\to M_x^*, f\mapsto f\circ M_\alpha \]
+    for all $x,y\in\ob(\category)$ and $\alpha\colon x\to y$. 
+    If $\eta\colon M\to M'$ is a morphism of persistence modules then $D\eta\colon DM'\to DM$ is given by $(D\eta)_x(f)=f\circ \eta_x$ for $x\in\ob(\category)$ and $f\in (M_x')^*$.
+    It is immediate that $D\id_M=\id_{DM}$ and $D(\eta\theta)=(D\theta)(D\eta)$, so $D$ is a contravariant functor.
+
+    Let $0\to M^1\xrightarrow{\eta} M^2\xrightarrow{\theta} M^3\to $ be an exact sequence of persistence modules. 
+    Since $\field$ is an injective $\field$-module, it follows that $\Hom_{\field}(-, \field)\colon \Vect\to\Vect$ is exact and so
+    \[ 0\to DM^3_x\xrightarrow{\theta_x^*} DM^2_x\xrightarrow{\eta_x^*}DM^1_x\to 0 \]
+    is exact for all $x\in\ob(\category)$. 
+    Hence, $(\ker D\theta)_x=\ker (D\theta)_x=\ker\theta_x^*=0$, $(\im D\eta)_x=\im\eta_x^*=DM^1_x$ and $(\ker D\eta)_x=\ker\eta_x^*=\im\theta_x^*=(\im D\theta)_x$ for all $x$, so $0\to DM_3\xrightarrow{D\theta} DM_2\xrightarrow{D\eta} DM_1\to 0$ is exact.
+\end{proof}
+
+
+Note that $DM=\bigoplus_{x\in\ob(\category)}\Hom_{\field}(M_x,\field)$ and so for $f=\sum_{x\in\ob(\category)}f_x\in DM$ we have that $(\alpha^{\op}f)_x=M_\alpha^*(f_{s(\alpha^{op})})=f_{t(\alpha)}\circ M_\alpha$ if $x=t(\alpha)$ and 0 otherwise.
+In other words, for $m\in M$ and $f\in DM$ we have
+\[ f(\alpha m)=f_{t(\alpha)}(M_\alpha(m_{s(\alpha)}))=(\alpha^{op}f)(m), \]
+which better emphasizes the $\pathalgebraop$-module structure of $DM$.
+
+We also denote the pointwise duality functor $\RepPop\to\RepP$ by $D$.
+
+\begin{lemma}\label{lemma:doubleDual}
+    Let $M\in\ob(\RepP)$ be pfd. Then $D^2M\cong M$.
+\end{lemma}
+\begin{proof}
+    Since $M_x$ is finite dimensional for all $x\in\ob(\category)$, we have the canonical isomorphism $\phi_x\colon M_x\to\left( D^2M \right)_x$
+    given by $\phi_x(m)(f)=f(m)$ for $m\in M_x$ and $f\in (DM)_x$.
+    
+    If $\alpha\colon x\to y$ is a morphism in $\category$, $m\in M_x$ and $f\colon M_y\to\field$ then
+    \begin{align*}
+        \left( (D^2M)_\alpha\circ\phi_x \right)(m)(f)&=\left(\phi_x(m)\circ (DM)_{\alpha^{\op}}  \right)(f)\\
+        &=\phi_x(m)\left( f\circ M_\alpha \right)\\
+        &=(f\circ M_\alpha)(m)\\
+        &=\left( \phi_y\circ M_\alpha \right)(m)(f)
+    \end{align*}
+    so the following diagram commutes
+    \begin{center}
+        \begin{tikzcd}
+            M_x \arrow[d, "\phi_x"] \arrow[r, "M_\alpha"] & M_y \arrow[d, "\phi_y"] \\
+            (D^2M)_x \arrow[r, "(D^2M)_\alpha"]           & (D^2M)_y               
+        \end{tikzcd}.
+    \end{center}
+    Thus, $\phi$ is a natural isomorphism.
+\end{proof}
+\begin{remark}
+    The fact that $\phi$ in the above proof is a natural isomorphism, is equivalent to it being a $\pathalgebra$-module isomorphism. 
+    Thus, the naturality condition is equivalent to $\phi(\alpha m)=\alpha\phi(m)$ which follows from
+    \[\phi(\alpha m)(f)=f(\alpha m)=(\alpha^{\op}f)(m)=\phi(m)(\alpha^{\op}f)=(\alpha\phi(m))(f).\]
+\end{remark}
+
+\section{Tensor-Hom Adjunction}\label{sec:tensorHomAdjunction}
+Let $N\in\ob(\RepPop)$.
+We saw in Section \ref{sec:theTensorProduct} that the tensor product defines a functor $N\tensor -\colon \RepP\to\Vect$.
+In this section we show that the tensor product has a right adjoint functor and construct it explicitly.
+
+For a right $\pathalgebra$-module $X$, we can take its dual as a $\field$-vector space to get the left $\pathalgebra$-module $X^*=\Hom_{\field}(X,\field)$ endowed with the right $\pathalgebra$-module structure given by $\alpha\varphi(a)=\varphi(\alpha^{\op} a)$ for $\alpha\in\mor(\category),\varphi\in X^*$ and $m\in X$.
+For a $\categoryop$-module $N$, pointwise duality gives a $\pathalgebra$-module 
+\[ DN=\bigoplus_{x\in\ob(\category)}\Hom_{\field}(N_x,\field)\subseteq\prod_{x\in\ob(\category)}\Hom_{\field}(N_x,\field)=\Hom_{\field}(N,\field). \]
+Thus, it is natural to generalize duality to a functor $\hom_{\field}(N, -)\colon\Vect\to\RepP$ given by
+\[ \hom_{\field}(N, V)=\bigoplus_{x\in\ob(\category)}\Hom_{\field}(N_x,V)\subseteq\Hom_{\field}(N, V),\]
+where $V$ is a $\field$-vector space.
+Explicitly, $\hom_{\field}(N, V)$ is the $\category$-module given by $(\hom_{\field}(N, V))_x=\Hom_{\field}(N_x,V)$ and $(\hom_{\field}(N, V))_\alpha=N_{\alpha^{\op}}^*$ and for a $\field$-linear map $f:V\to W$, $(\hom_{\field}(N, f))_x=f\circ -$.
+In particular, we have that $\hom_{\field}(N,\field)=DN$.
+\begin{proposition}\label{prop:TensorHomAdjunction}
+    Let $N\in\ob(\RepPop)$. 
+    Then $\hom_{\field}(N, -)$ and $N\tensor -$ are adjoint functors.
+\end{proposition}
+\begin{proof}
+    Let $M\in\ob(\RepP)$ and $V$ a $\field$-vector space.
+    Define 
+    \[\phi_{M,V}\colon\Hom_{\field}(N\tensor M, V)\to\Hom_{\RepP}(M,\hom_{\field}(N, V))\]
+    by $\phi_{M,V}(f)(m)(n)=f(n\otimes n)$.
+    Then
+    \[ \phi(f)(\alpha m)(n)=f(n\otimes\alpha m)=f(\alpha^{\op} n\otimes m)=\phi(f)(m)(\alpha^{\op}n)=(\alpha\phi(f)(m))(n), \]
+    where the last equality follows since $\phi(f)(m)\in\hom_{\field}(N,V)\subseteq\Hom_{\field}(N,V)$ and by definition of the module structure of $\Hom_{\field}(N, V)$.
+    Thus, $\phi(f)$ is a morphism of $\category$-modules, and it follows that $\phi$ is well-defined.
+    
+    To show that $\phi_{M,V}$ is an isomorphism, we construct an inverse map.
+    Let $\eta:M\to\hom_{\field}(N,V)$ be a natural transformation. 
+    The map $N\times M\to V, (n,m)\mapsto \eta(m)(n)$ is $\category$ balanced, and so there exists a unique $\bar{\eta}:N\tensor M\to V$ such that $\bar{\eta}(n\otimes m)=\eta(m)(n)$.
+    Let $\psi_{M,V}:\Hom_{\RepP}(M,\hom_{\field}(N,V))\to\Hom_{\field}(N\tensor M, V), \eta\mapsto\bar{\eta}$.
+    Since
+    \[ (\psi_{M,V}\phi_{M,V})(f)(n\otimes m)=\psi_{M, V}(\phi_{M,V}(f))(n\otimes m)=\phi_{M,V}(f)(m)(n)=f(n\otimes m) \]
+    and
+    \[ (\phi_{M, V}\psi_{M,V})(\eta)(m)(n)=\phi_{M,V}(\bar{\eta})(m)(n)=\bar{\eta}(n\otimes m)=\eta(m)(n), \]
+    it follows that $\psi_{M,V}=\phi_{M,V}^{-1}$ and so $\phi_{M,V}$ is an isomorphism.
+    
+    To show this isomorphism is natural, let $M',M''\in\ob(\RepP)$, $\eta\colon M'\to M''$, $V_1,V_2\in\ob(\Vect)$ and $g:V_1\to V_2$.
+    Then
+    \begin{center}
+        \begin{tikzcd}
+            {\Hom_{\field}(N\tensor M',V_1)} \arrow[r, "{\phi_{M',V_1}}"]                                       & {\Hom_{\RepP}(M',\hom_{\field}(N, V_1))}             \\
+            {\Hom_{\field}(N\tensor M'',V_1)} \arrow[u, "-\circ(\id_N\otimes\eta)"] \arrow[r, "{\phi_{M'',V_1}}"] & {\Hom_{\RepP}(M'',\hom_{\field}(N, V_1))} \arrow[u, "-\circ \eta"']
+        \end{tikzcd}
+    \end{center}
+    commutes since
+    \begin{align*}
+        \phi_{M', V_1}(f\circ(\id_N\otimes\eta))(m)(n)&=f\left((\id_N\otimes\eta)(n\otimes m)\right)\\
+        &=f(n\otimes\eta(m))\\
+        &=\phi_{M'', V_1}(f)(\eta(m))(n)\\
+        &=(\phi_{M'', V_1}(f)\circ\eta)(m)(n).
+    \end{align*}
+    Similarly, since
+    \begin{align*}
+        (\hom_{\field}(N,g)\circ\phi_{M', V_1}(f))(m)(n)&=(g\circ\phi_{M', V_1}(f))(m)(n)\\
+        &=g(f(n\otimes m))\\
+        &=(\phi_{M', V_2}(g\circ f))(m)(n)
+    \end{align*}
+    we have that
+    \begin{center}
+        \begin{tikzcd}
+            {\Hom_{\field}(N\tensor M',V_1)} \arrow[r, "{\phi_{M',V_1}}"] \arrow[d, "g\circ -"'] & {\Hom_{\RepP}(M',\hom_{\field}(N, V_1))} \arrow[d, "{\hom_{\field}(N,g)\circ -}"] \\
+            {\Hom_{\field}(N\tensor M',V_2)} \arrow[r, "{\phi_{M',V_2}}"]                        & {\Hom_{\RepP}(M',\hom_{\field}(N, V_2))}                                         
+        \end{tikzcd}
+    \end{center}
+    commutes.
+\end{proof}
+The following corollary is the result we need for Chapter \ref{chap:existence}, and so we state here it for reference. 
+The proof is obtained by simply taking $V=\field$ and applying the tensor-hom adjunction.
+\begin{corollary}\label{cor:tensorHomAdjunction}
+    Let $M\in\ob(\RepP)$ and $N\in\ob(\RepPop)$. Then
+    \[ \Hom_{\field}(N\tensor M,\field)\cong\Hom_{\RepP}(M, DN) \]
+    as $\field$-vector spaces. Moreover, the isomorphism is natural in $M$.
+\end{corollary}
+\begin{example}\label{example:tensorHomAdjunction}
+    Let $\category, M$ and $N$ be as in Example \ref{example:tensorProduct}.
+    A morphism $\eta\colon M\to DN$ consists of $\field$-linear maps $\eta_1\colon\field\to\field$ and $\eta_2:\field^2\to\field$ so that
+    \begin{center}
+        \begin{tikzcd}
+            \field \arrow[d, "\eta_1"] \arrow[r, "{[1,0]^T}"] & \field^2 \arrow[d, "\eta_2"] & \field \arrow[d, "\eta_1"] \arrow[r, "{[0,1]^T}"] & \field^2 \arrow[d, "\eta_2"] \\
+            \field \arrow[r, "1"]                             & \field                       & \field \arrow[r, "0"]                             & \field                      
+        \end{tikzcd}
+    \end{center}
+    commutes. 
+    In other words, $\eta_1(c)=\eta_2(c,0)$ and $0=\eta_2(0,c)$ for all $c\in\field$.
+    Thus, choosing $\eta_1\in\End_{\field}(\field)\cong\field$ determines $\eta$, and it follows that $\Hom_{\RepP}(M, DN)\cong\field$.
+    From Example \ref{example:tensorProduct} we know that $N\tensor M\cong\field$ and so $\Hom_{\field}(N\tensor M,\field)\cong\Hom_{\field}(\field,\field)\cong\field$.
+\end{example}

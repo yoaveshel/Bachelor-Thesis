@@ -1,0 +1,39 @@
+\chapter{Conclusion}\label{chap:conclusion}
+Combining Theorems \ref{thm:indecomposableDecomposition} and \ref{thm:uniqueness} we obtain a proof of Theorem \ref{theorem:main}.
+Thus, we have proved that every pointwise finite dimensional persistence module over a small category has an essentially unique decomposition into indecomposable summands.
+
+The condition that $\dim M_x<\infty$ for all $x$ might seem too strict, since we only really need it for the proof of Lemma \ref{lemma:PRepsArePure} (as mentioned in Remark \ref{remark:pfdCond}, to prove that a decomposition is unique we only need that the indecomposables have local endomorphism rings).
+To prove that a 1-parameter persistence module decomposes into interval modules, the pfd assumption is indeed crucial (see \cite[Example 1.8]{botnan_2015}), but the author is unaware of an example showing that this assumption is necessary for the existence of a decomposition in general.
+Finding a proof that doesn't rely on the pfd assumption or a proof that shows it is necessary could be an interesting direction for future research.
+
+We conclude this paper with a discussion of the relevance of this result to applications.
+
+% The following example is due to \cite[Example 1.8]{botnan_2015}).
+% Let $M'=\bigoplus_{k=1}^\infty\field^{[-k, 0]}$ be a persistence module over $\Zb$ (where the $\field^{[a,b]}$ are interval modules. See Example \ref{example:intervalModule}) and let $M$ be the persistence module defined in the following way
+% \[ M_x=\begin{cases}
+%     M_x',& x\leq 0\\
+%     \field,&x=1\\
+%     0,&x>0
+% \end{cases},\]
+% $M_{a\to b}=M_{a\to b}'$ if $a\leq b\leq 0$ and $M_{0\to 1}$ restricted to any of the $\field^{[-k, 0]}$ above is the identity.
+% Thus, $M$ is of the following form
+% \[ \cdots\to \bigoplus_{k=1}^\infty\field^{[-k, 0]}_{-2}\to \bigoplus_{k=1}^\infty\field^{[-k, 0]}_{-1}\to \bigoplus_{k=1}^\infty\field^{[-k, 0]}_0\xrightarrow{M_{0\to 1}}\field\to 0\to\cdots.\]
+% Note also that $M$ is not pointwise finite dimensional. 
+% If $M$ has a decomposition into indecomposables, then it will have a single indecomposable summand $\field^{[a,1]}$ which is non-zero at $x=1$ (see \cite[Section 4]{BotnanCrawley_2018} for the proof that indecomposable summands of 1-parameter persistence modules are interval modules).
+% Since $M_{0\to 1}\left(\field^{[-k, 0]}_0\right)=\field^{[a,0]}_1$ for all $k\geq 0$ it follows that the image of $M_{-k}\to M_0$ must be non-zero for all $k\geq 0$.
+% Since $\field^{[a,0]}$ is the only summand that has a non-zero image $M_1$, it follows that $\field^{[a,1]}_{-k}\neq 0$ for all $k\geq 0$.
+% In other words, it is of the form $\field^{[-\infty, 1]}$.
+% This is not possible since $M_{-k}=\bigoplus_{k=1}^\infty\field^{[-k, 0]}_{-k}$ is a direct sum of interval modules with finite support for all $k\geq0$.
+% We conclude that there cannot be an interval module containing $M_1$.
+
+Although the result proved here is undeniably nice, it may seem dishearteningly abstract.
+For practical purposes, it is not enough to know that a decomposition exists, we also want to know how to compute it.
+For reasons that are yet unclear to the author, classifying indecomposables summands of multi-parameter persistence modules is "hopeless" \cite[Section 8.5]{botnanLesnick_2022}, but we can compute its decomposition in practice.
+An algorithm to compute decomposition of finitely presented persistence modules over $\Zb^n$ can be found in \cite{deyXin_2019}. 
+This algorithm takes as an input a presentation matrix of an $n$-parameter persistence module, and, under the assumption that no two rows or columns have the same label, it outputs a decomposition into indecomposables.
+If this assumption does not hold, then it still outputs a decomposition but the summands are not guaranteed to be indecomposable \cite[Section 8.5]{botnanLesnick_2022}.
+Nevertheless, the question of how to realize indecomposables in terms of the data is still a matter of ongoing research \cite{botnanLesnick_2022}.
+
+Moreover, given that computers can only work with finite persistence module, why should our theory consider persistence modules over $\Rb$ or $\Rb^n$?
+The reason for working in the continuous setting is that many theoretical results are stated in terms of an idealized model, such as a continuous space from which the data is sampled \cite{chazalSilva_2012}.
+In these models, finiteness can be an unnatural restriction, and so stating our results in the abstract setting allows one to adapt it to whichever model they deem fit. 

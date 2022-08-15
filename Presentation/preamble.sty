@@ -1,0 +1,67 @@
+\usepackage[english]{babel}
+\usepackage{graphicx}
+\graphicspath{ {figures/} }
+
+\usepackage{lipsum}
+
+\usepackage{mathtools}
+\usepackage{amsmath}
+\usepackage{amssymb}  
+\usepackage{amsthm}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usetikzlibrary{shapes.geometric, arrows}
+
+
+\tikzstyle{process} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, text width=3cm]
+\tikzstyle{wide} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, text width=4cm]
+
+
+\newcommand{\Nb}{\mathbb{N}}
+\newcommand{\Zb}{\mathbb{Z}}
+\newcommand{\Qb}{\mathbb{Q}}
+\newcommand{\Rb}{\mathbb{R}}
+\newcommand{\Cb}{\mathbb{C}}
+\newcommand{\Ib}{\mathbb{I}}
+\newcommand{\Fb}{\mathbb{F}}
+\newcommand{\Uc}{\mathcal{U}}
+\newcommand{\Cc}{\mathcal{C}}
+\newcommand{\Ic}{\mathcal{I}}
+
+\newcommand{\qand}{\quad\text{and}\quad}
+
+\newcommand{\mathtext}[1]{\normalfont\text{#1}}
+\newcommand{\ob}{\mathtext{ob}}
+\newcommand{\dom}{\mathtext{dom}}
+\newcommand{\cod}{\mathtext{cod}}
+\newcommand{\Hom}{\mathtext{Hom}}
+\newcommand{\End}{\mathtext{End}}
+\newcommand{\coker}{\mathtext{coker\,}}
+\newcommand{\im}{\mathtext{im\,}}
+\newcommand{\dual}[1]{#1^*}
+\newcommand{\id}{\normalfont\text{id}}
+\newcommand{\textdef}[1]{\textit{#1}}
+% Categories
+\newcommand{\catname}[1]{\normalfont\mathsf{#1}}
+\newcommand{\comma}[2]{\left(#1\downarrow #2\right)}
+\newcommand{\Vect}{\catname{Vec}_{\textbf{k}}}
+\newcommand{\Set}{\catname{Set}}
+\newcommand{\Rep}[1]{\Vect^{#1}}
+\newcommand{\RepP}{\Rep{P}}
+\newcommand{\RepPop}{\Rep{P^{op}}}
+\newcommand{\Ab}{\catname{Ab}}
+
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}%
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}%
+% Swap the definition of \abs* and \norm*, so that \abs
+% and \norm resizes the size of the brackets, and the 
+% starred version does not.
+\makeatletter
+\let\oldabs\abs
+\def\abs{\@ifstar{\oldabs}{\oldabs*}}
+%
+\let\oldnorm\norm
+\def\norm{\@ifstar{\oldnorm}{\oldnorm*}}
+\makeatother

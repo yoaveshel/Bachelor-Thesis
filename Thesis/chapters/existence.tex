@@ -1,0 +1,126 @@
+\chapter{Existence of Decomposition}\label{chap:existence}
+\begin{definition}
+    A short exact sequence of persistence modules $0\to M\to M'\to M''\to 0$ is called \textdef{pure-exact} if $0\to N\tensor M\to N\tensor M'\to N\tensor M''\to 0$ is exact for every $N\in\ob(\RepPop)$.
+    A submodule $M'\subseteq M$ is \textdef{pure} if the canonical exact sequence
+    \[ 0\to M'\to M\to M/M'\to 0 \]
+    is pure-exact.
+\end{definition}
+Note that since the tensor product is right exact (Lemma \ref{lemma:tensorRightExact}), to verify that an exact sequence of $\category$-modules $0\to M\xrightarrow{\eta} M'\to M''\to 0$ is pure, it suffices to check that $\id_N\otimes\eta$ is injective for all $\categoryop$-modules $N$.
+\begin{example}\label{example:pureSubmodule}
+    Let $\category$ be the category $1\to 2$, $M$ the persistence module $\field\xrightarrow{[1,0]^T}\field^2$ and $M'$ the persistence module $0\to\field$.
+    We claim that $M'$ is pure in $M$.
+    Let $\eta\colon M'\to M$ be given by $\eta_1=0$ and $\eta_2=[0,1]^T$, and $\theta\colon M\to M'$ be given by $\theta_1=0$ and $\theta_2=[0,1]$.
+    Since $\eta$ is the inclusion map, we have a canonical exact sequence
+    \[ 0\to M'\xrightarrow{\eta} M\to M/M'\to 0. \]
+    Since $\theta\eta=\id_{M'}$ and for all $N\in\ob(\RepPop)$ we have that
+    \[ n\otimes m=\id_{N\tensor M}(n\otimes m)=(\id_N\otimes\theta\eta)(n\otimes m)=(\id_N\otimes\theta)(\id_N\otimes\eta)(n\otimes m), \]
+    it follows that $\ker(\id_N\otimes\eta)=0$.
+    Thus, $\id_N\otimes\eta$ is injective and so $M'$ is pure in $M$.
+\end{example}
+In Example \ref{example:pureSubmodule} we have that $M=M''\oplus M'$ where $M''$ is the persistence module $\field\xrightarrow{1}\field$,
+suggesting that a direct summand is a pure submodule. 
+This is proven in the following lemma.
+\begin{lemma}\label{lemma:directSumIsPure}
+    A direct summand is a pure submodule.
+\end{lemma}
+\begin{proof}
+    Let $M,M'\in\ob(\RepP)$. Consider the exact sequence
+    \begin{equation}\label{eq:directSumExactSequence}
+        0\to M\xrightarrow{\iota} M\oplus M'\to M'\to 0
+    \end{equation}
+    and let $N\in\ob(\RepPop)$.
+    Let $\pi\colon M\oplus M'\to M$ be the projection map, so that $\pi\iota=\id_M$, and take $n\otimes m\in N\tensor M$ such that $(\id_N\otimes\iota)(n\otimes m)=n\otimes\iota(m)=0$.
+    Functoriality of the tensor product gives
+    \[n\otimes m=\id_{N\tensor M}(n\otimes m)=(\id_N\otimes\pi\iota)(n\otimes m)=(\id_N\otimes\pi)(n\otimes \iota(m))=0, \]
+    and it follows that $\id_N\otimes\iota$ is injective.
+\end{proof}
+
+\begin{lemma}\label{lemma:unionIsPure}
+    A union of a chain of pure submodules is pure.
+\end{lemma}
+\begin{proof}
+    Let $M\in\ob(\RepP)$ and $M^1\subseteq M^2\subseteq M^3\subseteq\cdots$ a chain of pure submodules.
+    We want to show that the canonical exact sequence
+    \begin{equation}\label{eq:limitOfChain}
+        0\to A\xrightarrow{\iota} M\xrightarrow{\pi} M/A\to 0 
+    \end{equation}
+    is pure-exact, where $A=\bigcup_{i=1}^\infty M^i$.
+    Let $N\in\ob(\RepPop)$ and take $n\otimes m\in N\tensor A$ such that $(\id_N\otimes\iota)(n\otimes m)=0$.
+    Then $m\in M^i$ for some $i\in\Nb$ and since
+    \[ 0\to M^i\xrightarrow{\iota_i} M\xrightarrow{\pi_i} M/M^i\to 0 \]
+    is pure-exact, it follows that $\id_N\otimes\iota_i$ is injective. Since
+    \[ (\id_N\otimes\iota_i)(n\otimes m)=(\id_N\otimes\iota)(n\otimes m)=0 \]
+    it follows that $n\otimes m=0$ and so $\id_N\otimes\iota$ is injective and the result follows.
+\end{proof}
+
+\begin{definition}
+    A persistence module $M$ is called \textdef{injective} if the functor $\Hom_{\RepP}(-, M):\RepP\to\Vect$ is exact.
+    It is \textdef{pure-injective} if $\Hom_{\RepP}$ is exact on pure-exact sequences.
+\end{definition}
+
+\begin{lemma}\label{lemma:PRepsArePure}
+    A pfd persistence module is pure-injective.
+\end{lemma}
+The following proof is due to William Crawley-Boevey \cite{crawley-boevey_2017}.
+\begin{proof}
+    Let $M\in\ob(\RepP)$ be pfd and $0\to M^1\to M^2\to M^3\to 0$ be a pure-exact sequence of persistence modules.
+    Then
+    \[0\to DM\tensor M^1\to DM\tensor M^2\to DM\tensor M^3\to 0\] 
+    is exact, and we can dualize to get that
+    \[ 0\to (DM\tensor M_3)^*\to (DM\tensor M_2)^*\to (DM\tensor M_1)^*\to 0 \]
+    is exact.
+    By Corollary \ref{cor:tensorHomAdjunction} and Lemma \ref{lemma:doubleDual} it follows that 
+    \[ (DM\tensor M^i)^*\cong\Hom_{\RepP}(M^i, D^2M)\cong\Hom_{\RepP}(M^i, M),\quad i=1,2,3.\]
+    Since this isomorphism is natural, we conclude that
+    \[ 0\to\Hom_{\RepP}(M^3, M)\to \Hom_{\RepP}(M^2,M)\to \Hom_{\RepP}(M^1, M)\to 0 \]
+    is exact, showing that $M$ is pure-injective. 
+\end{proof}
+
+\begin{lemma}\label{lemma:pureIsDirectSum}
+    If $M$ is a pure-injective persistence module, then every pure-exact sequence $0\to M\xrightarrow{\eta} M'\xrightarrow{\theta} M''\to 0$ splits.
+\end{lemma}
+\begin{proof}
+    Since $M$ is pure-injective we have that
+    \[ 0\to \Hom_{\RepP}(M'', M)\to \Hom_{\RepP}(M',M)\to \Hom_{\RepP}(M,M)\to 0 \]
+    is exact. In particular there is $\zeta\in\Hom_{\RepP}(M',M)$ such that $\zeta\eta=\text{id}_M$.
+    Consider the map $\varphi:M'\to M\oplus M''$ given by $\varphi(x)=(\zeta(x),\theta(x))$.
+    Then the diagram
+    \begin{center}
+        \begin{tikzcd}
+            0 \arrow[r] & M \arrow[r, "\eta"] \arrow[d, "\text{id}_M"] & M' \arrow[r, "\theta"] \arrow[d, "\varphi"] & M'' \arrow[r] \arrow[d, "\text{id}_{M''}"] & 0 \\
+            0 \arrow[r] & M \arrow[r, "\iota"]                      & M\oplus M'' \arrow[r, "\pi"]            & M'' \arrow[r]                              & 0
+            \end{tikzcd}
+    \end{center}
+    commutes.
+    Since $\RepP$ is an abelian category we can use the Five Lemma to conclude that $\varphi$ is an isomorphism.
+\end{proof}
+
+The following two proofs are analogous to paragraphs three and four (respectively) in \cite[p. 163]{jensen_lenzing_1989}
+\begin{lemma}\label{lemma:indecomposableSummand}
+    If $M$ is a nonzero pfd persistence module, then it has an indecomposable summand.
+\end{lemma}
+\begin{proof}
+    Let $m\in M$ and 
+    \[S=\{N\subseteq M\mid N\text{ is pure in }M\text{ and }m\not\in N\}.\]
+
+    The union $N$ of any chain $N_1\subseteq N_2\subseteq\cdots$ in $S$ is again pure by Lemma \ref{lemma:unionIsPure} and $m\not\in N$. 
+    Thus, $N\in S$.
+    By Zorn's lemma it follows that there is a maximal element $N\in S$.
+    Now, $N$ is pure in $M$ so the sequence $0\to N\to M\to M/N\to 0$ is pure-exact and $N$ is pfd so it is pure-injective by Lemma \ref{lemma:PRepsArePure}.
+    Thus, it follows by Lemma \ref{lemma:pureIsDirectSum} that $M\cong N\oplus M/N$. 
+    Note that $M/N$ is non-zero since $m\in M/N$.
+    Suppose that $M/N$ decomposes as $U\oplus U'$.
+    Then $N\oplus U$ and $N\oplus U'$ are direct summands of $M$, so pure in $M$ by Lemma \ref{lemma:directSumIsPure} and since they can't both contain $m$, one of them contradicts the maximality of $N$.
+\end{proof}
+
+\begin{theorem}\label{thm:indecomposableDecomposition}
+    If $M$ is a nonzero pfd persistence module, then it is a direct sum of indecomposables.
+\end{theorem}
+\begin{proof}
+    Let $S=\{N\subset M\mid N\text{ is indecomposable}\}$, which is non-empty by the previous lemma, and 
+    \[\Uc=\{I\subset S\mid\bigoplus_{N\in I}N\text{ is direct and pure in }M\},\]
+    which is non-empty by the previous lemma and Lemma \ref{lemma:directSumIsPure}.
+    Again by Zorn's lemma it follows that $\Uc$ has a maximal element $I$ and $M'=\bigoplus_{N\in I} N$ is direct and pure in $M$.
+    Then $M=M'\oplus M''$ where $M''$ must be zero, otherwise it would have an indecomposable summand, contradicting the maximality of $I$.
+    Thus $M=\oplus_{N\in I}N$. 
+\end{proof}

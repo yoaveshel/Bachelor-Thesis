@@ -1,0 +1,150 @@
+\chapter{Uniqueness of Decomposition}\label{chap:uniqueness}
+The following lemma, as well as Lemma \ref{lemma:indecpomposableIffLocal}, were adapted from \cite[Section 3]{BotnanCrawley_2018}.
+\begin{lemma}
+    Let $M$ be a pfd persistence module. 
+    Then every endomorphism $\eta\colon M\to M$ induces a decomposition $M=M'\oplus M''$, where $M'_x=\im\eta_x^{n_x}$ and $M''_x=\ker\eta_x^{n_x}$ for some $n_x\in\Nb$. 
+\end{lemma}
+\begin{proof}
+    Suppose $M$ is indecomposable and let $\eta\in\End_{\RepP}(M)$. 
+    Then we have a linear endomorphism $\eta_x\colon M_x\to M_x$ for each $x\in\ob(\category)$.
+    Since $M_x$ is a finite dimensional vector space, the Fitting lemma gives us a decomposition
+    \[ M_x=\im(\eta^n_x)\oplus\ker(\eta^n_x) \]
+    for $n$ sufficiently large.
+
+    Let $\alpha\colon x\to y$ be a morphism in $\category$. Then $M_\alpha\eta_x=\eta_yM_\alpha$ since $\eta\colon M\to M$ is a natural transformation.
+    Furthermore, taking $n$ sufficiently large for the decomposition of $M_x$ and $M_y$ we have $M_\alpha\eta^n_x=\eta^n_yM_\alpha$ so $M_\alpha\left(\im(\eta_x^n)\right)\subseteq\im(\eta_y^n)$ and $M_\alpha\left(\ker(\eta^n_x)\right)\subseteq\ker(\eta^n_y)$.
+    Thus, the decomposition $\im(\eta^n_x)\oplus\ker(\eta^n_x)$ for each $x$ gives a decomposition $M=M'\oplus M''$ as persistence modules, where $M'_x=\im(\eta_x^{n_x})$ and $M''_x=\ker(\eta_x^{n_x})$ for $n_x\in\Nb$ sufficiently large.
+\end{proof}
+\begin{corollary}\label{cor:ImKerDecomposition}
+    Let $M$ be a pfd persistence module and $\eta\colon M\to M$ an idempotent endomorphism.
+    Then $M=\im\eta\oplus\ker\eta$.
+\end{corollary}
+\begin{proof}
+    We have that $M'_x=\im\eta_x^{n_x}=\im\eta_x$ and $M''_x=\ker\eta_x^{n_x}=\ker\eta_x$ for all $x\in\ob(\category)$ and the result follows.
+\end{proof}
+
+
+\begin{lemma}\label{lemma:indecpomposableIffLocal}
+    Let $M$ be a pfd persistence module. 
+    Then $M$ is indecomposable if and only if $\End_{\RepP}(M)$ is local.
+\end{lemma}
+\begin{proof}
+    Suppose $M$ is indecomposable.
+    Let $\eta\in\End_{\RepP}(M)$ and let $M=M'\oplus M''$ be the corresponding decomposition.
+    Since $M$ is indecomposable, we have $M=M'$ or $M=M''$.
+    If $M=M'$, then $\im\eta_x^{n_x}=M_x$ and since $\im\eta_x^{n_x}\subseteq\im\eta_x$ it follows that $\im\eta_x=M_x$ for all $x\in\ob(\category)$.
+    Since $\eta_x$ is a surjective endomorphism of finite dimensional vector spaces, it is an isomorphism\footnote{
+        This follows from $0\to\ker\eta_x\to M_x\xrightarrow{\eta_x} M_x\to 0$ being a short exact sequence of vector spaces, so it splits, and comparing dimensions we can conclude that $\ker\eta_x=0$.
+    } for all $x$ and so $\eta$ is an isomorphism. 
+    Otherwise, if $M=M''$ then $\eta_x^{n_x}=0$ for all $x$ and it follows that
+    \[1=1-\eta_x^{n_x}=(1-\eta_x)\left(1+\eta_x+\cdots+\eta_x^{n_x-1}\right),\]
+    so $1-\eta_x$ is invertible for all $x$.
+    Thus, $1-\eta$ is invertible, and it follows that $\End_{\RepP}(M)$ is local.
+    
+    To prove the converse, suppose $M$ is decomposable. Then $M=M'\oplus M''$ for $M',M''$ nontrivial.
+    Let $\eta_x\colon M_x\to M_x$ be the projector to $M_x'$ for every $x$. It is clear that $\eta\in\End_{\RepP}(M)$ and that neither $\eta, 1-\eta$ are isomorphism.
+    Thus, $\End_{\RepP}(M)$ is not local.
+\end{proof}
+
+The following lemma is analogous to \cite[Lemma 2.6]{facchini_1998}.
+\begin{lemma}\label{lemma:projectionIsIso}
+    Let $M',M''$ be persistence modules, $M=M'\oplus M''$ and $N\subseteq M$.
+    Then $M=M'\oplus N$ if and only if $\pi_{M''}\vert_{N}\colon N\to M''$ is an isomorphism, where $\pi_{M''}$ is the canonical projection.
+    If one of these conditions hold, then the canonical projection $\pi_{N}\colon M\to N$ is given by $\pi_{N}=(\pi_{M''}\vert_{N})^{-1}\pi_{M''}$.
+\end{lemma}
+\begin{proof}
+    The map $\pi_{M''}\vert_{N}$ is injective if and only if $N\cap M'=0$ and surjective if and only if for every $m_2\in M''$ there is $m'\in N$ such that $m'=m_1+m_2$ for some $m_1\in M'$, which is the case if and only if $M''\subset N+M'$. 
+    Hence, $\pi_{M''}\vert_{N}$ is bijective if and only if $M'\oplus M''=M'\oplus N$, which proves the first part.
+    Suppose $M=M'\oplus M''=M'\oplus N$. 
+    Let $m\in M$. 
+    Then $m=\pi_{M'}(m)+\pi_{N}(m)$ so $\pi_{M''}(m)=(\pi_{M''}\pi_{M'})(m)+(\pi_{M''}\vert_{N}\pi_{N})(m)=(\pi_{M''}\vert_{N}\pi_{N})(m)$ and it follows that $\pi_{N}(m)=\left((\pi_{M''}\vert_{N})^{-1}\pi_{M''}\right)(m)$.
+\end{proof}
+
+If we have a persistence module $M=\bigoplus_{i\in I}M^i$, then for $I'\subseteq I$  let $M(I')=\bigoplus_{i\in I'}M^i$.
+
+The following three proofs were inspired by Lemma 1.1, Lemma 1.2 and Theorem 1.3 in Chapter 5 of \cite{popescu_1973}, respectively.
+\begin{lemma}\label{lemma:extractingIndecomposables}
+    Let $M=\bigoplus_{i\in I} M^i$ be a pfd persistence module where $M^i$ are indecomposable.
+    Let $\eta,\theta\in\End(M)$ such that $\eta+\theta=1_M$. 
+    Then for any $\{i_1,i_2,\dots, i_s\}\subseteq I$ there exist submodules $N^1, N^2,\dots N^s$ such that
+    \begin{enumerate}
+        \item For each $k=1,\dots,s$ either $\eta$ or $\theta$ induces an isomorphism of $N^k$ with $M^{i_k}$.
+        \item $M=N^1\oplus\cdots\oplus N^s\oplus M(I\setminus\{i_1,\cdots i_s\})$ 
+    \end{enumerate} 
+\end{lemma}
+\begin{proof}
+    Let $\iota_i\colon M^i\to M$ be the inclusion maps and $\pi_i\colon M\to M^i$ the associated projection maps.
+    Then
+    \[ \pi_i=\pi_i(\eta+\theta)=\pi_i\eta+\pi_i\theta \]
+    and so
+    \[ 1_{M^i}=\pi_i\iota_i=\pi_i \eta\iota_i+\pi_i \theta\iota_i. \]
+    Since $\End(M^i)$ is local for each $i\in I$ (by Lemma \ref{lemma:indecpomposableIffLocal}), it follows that one of $\pi_i\eta\iota_i$ and $\pi_i\theta\iota_i$ is an isomorphism.
+    Suppose that $\pi_{i_1} \eta\iota_{i_1}$ is an isomorphism and let $N^1=\im \eta\iota_{i_1}$.
+    Since $\pi_{i_1} \eta\iota_{i_1}$ is an isomorphism, it follows that $\pi_{i_1}\vert_{N^1}\colon N^1\to M^{i_1}$ is an isomorphism and so by Lemma \ref{lemma:projectionIsIso} it follows that $M=N^1\oplus M(I\setminus\{i_1\})$.
+    Repeating the argument for $s$ times we obtain $N^1,N^2,\dots, N^s$ with the desired properties.
+\end{proof}
+
+
+\begin{lemma}\label{lemma:idempotentInduceIso}
+    Let $M=\bigoplus_{i\in I}M^i$ be a pfd persistence module with $M^i$ indecomposable.
+    If $\eta\colon M\to M$ is nonzero and $\eta^2=\eta$ then there exists at least one $i\in I$ such that $\eta$ induces an isomorphism of $M^i$ with $\eta(M^i)$ and $\eta(M^i)$ is a direct summand of $M$.
+    Moreover, any indecomposable direct summand of $M$ is isomorphic to $M^i$ for some $i\in I$.
+\end{lemma}
+\begin{proof}
+    Since $\ker\eta=\im(1-\eta)$ it follows by Corollary \ref{cor:ImKerDecomposition} that
+    \[ M=\bigoplus_{i\in I}M^i=\im\eta\oplus\im(1-\eta).\]
+    Since $\im\eta\neq 0$, there exists $i_1\in I$ such that $\im \eta\cap M^{i_1}\neq 0$.
+    Applying Lemma \ref{lemma:extractingIndecomposables} to $\eta$ and $\theta=1-
+    \eta$ we find $N^1\subseteq M$ such that 
+    \[ M=N_1\oplus M(I\setminus\{i_1\}) \]
+    where either $N^1=\eta(M^{i_1})$ or $N^1=(1-\eta)(M^{i_1})$ and $N_1$ is isomorphic to $M^{i_1}$.
+    Since $0\neq \im\eta\cap M^{i_1}\subseteq\ker(1-\eta)$, it must be the case that $N_1=\eta(M^{i_1})$.
+    
+    Let $M'$ be an indecomposable direct summand of $M$, i.e. $M=M'\oplus M''$ for some $M''$. 
+    There exists an idempotent endomorphism $p$ of $M$ such that $p(M)=M'$.
+    From the previous paragraph it follows that there exists $i\in I$ such that $p$ induces an isomorphism of $M_i$ onto $p(M_i)\subseteq M'$.
+    Since $p(M_i)$ is a direct summand of $M$ and $M'$ is indecomposable it follows that $p(M_i)=M'$.
+\end{proof}
+
+\begin{theorem}[Krull-Remak-Schmidt-Azumaya Theorem]\label{thm:uniqueness}
+    Let $M$ be a pfd persistence module and suppose that
+    \[ M=\bigoplus_{i\in I}M^i=\bigoplus_{j\in J}N^j \]
+    are two direct sum decompositions of $M$ into indecomposables.
+    Then there is a bijection $\varphi\colon I\to J$ such that $M^i\cong N^{\varphi(i)}$ for all $i\in I$.
+\end{theorem}
+\begin{proof}
+    We introduce an equivalence relation on the set $I$: for $i_1,i_2\in I$ we say that $i_1\sim i_2$ if and only if $M^{i_1}\cong M^{i_2}$.
+    We similarly introduce an equivalence relation on $J$.
+    Let $K=I/\sim$ and $L=J/\sim$.
+    Applying Lemma \ref{lemma:idempotentInduceIso} to the morphism $\iota_i\pi_i\colon M\to M$ it follows that each $M^i$ is isomorphic to some $N^j$ and conversely. 
+    Thus, it follows that $L$ and $K$ are equivalent, and we therefore identify $L$ with $K$.
+
+    For $k\in K$, let $I_k$ (resp. $J_k$) denote the set of elements in $I$ (resp. $J$) which belong the class $k$.
+    We claim that $\abs{I_k}$ is finite for all $k\in K$.
+    Suppose there exists a $k$ such that $\abs{I_k}$ is infinite.
+    Let $i_1\in I_k$ and choose $x\in\ob(\category)$ such that $\dim (M^{i_1})_x>0$. 
+    Since $M^{i_1}\cong M^{i_2}$ implies $(M^{i_1})_x\cong (M^{i_2})_x$ it follows that $\dim (M^i)_x>0$ for all $i\in I_k$ and so
+    \[ \dim M_x=\sum_{i\in I}\dim(M^i)_x\geq\sum_{i\in I_k}(M^i)_x=\infty, \]
+    contradicting our assumption that $M$ is pfd.
+    
+    To prove the statement, it suffices to prove that $\abs{I_k}=\abs{J_k}$ for all $k\in K$.
+    Since the statement is symmetric about $I$ and $J$, it suffices to prove that $\abs{J_k}\leq \abs{I_k}$ for all $k\in K$.
+    Fix $k\in K$, $j_0\in J_k$ and let $p_{j_0}\colon M\to M$ be an idempotent endomorphism such that $p_{j_0}(M)=N^{j_0}$.
+    By Lemma \ref{lemma:idempotentInduceIso} there is $i_0\in I_k$ such that $p_{j_0}$ induces an isomorphism of $M^{i_0}$ with $N^{j_0}$.
+    By Lemma \ref{lemma:extractingIndecomposables} we have that
+    \begin{equation}\label{eq:decomposition}
+        M=M^{i_0}\oplus N(J\setminus\{j_0\}).
+    \end{equation}
+    If $\abs{J_k}=1$, then clearly we have that $\abs{J_k}\leq\abs{I_k}$ since $I_k$ can't be empty.
+    If there is $j_1\in J_k, j_1\neq j_0$, by considering the idempotent endomorphism $\iota_{j_1}\pi_{j_1}\colon M\to M$ (where $\pi_{j_1}\colon M\to N^{j_1}$ is the projection map with respect to the decomposition in (\ref{eq:decomposition}) and $\iota_{j_1}\colon N^{j_1}\to M$ is the inclusion map) and invoking Lemma \ref{lemma:idempotentInduceIso} it follows that there is $i_1\in I_k$ such that $\iota_{j_1}\pi_{j_1}$ induces an isomorphism of $M^{i_1}$ with $N^{j_1}$.
+    Since
+    \[ \pi_{j_1}(M^{i_0})=0 \]
+    it follows that $i_0\neq i_1$.
+    Continuing in this manner, we can prove that $\abs{J_k}\leq\abs{I_k}$ in a finite number of steps.
+\end{proof}
+
+\begin{remark}\label{remark:pfdCond}
+    It is possible to replace the assumption that $M$ is pfd in Theorem \ref{thm:uniqueness} with the assumption that it has a decomposition into indecomposables with local endomorphism rings.
+    This requires a few adjustments: the statements of Lemmas \ref{lemma:extractingIndecomposables} and \ref{lemma:idempotentInduceIso} can be changed without any further modifications, but Corollary \ref{cor:ImKerDecomposition} requires a different proof altogether, which can be achieved using the Five lemma.
+    Moreover, the proof of Theorem \ref{thm:uniqueness} will need to treat the case where $\abs{I_k}$ is infinite, which can be found in \cite[Theorem 1.3]{popescu_1973}.
+\end{remark}

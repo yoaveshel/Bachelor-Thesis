@@ -1,0 +1,162 @@
+\usepackage[english]{babel}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{titlesec}
+\usepackage{titletoc}
+\usepackage{csquotes}
+\usepackage{lipsum}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usepackage{graphics, setspace}
+\usepackage[nottoc, notlot, notlof]{tocbibind}
+\usepackage{biblatex}
+\usepackage{hyperref}
+\usepackage{caption}
+\usepackage{subcaption}
+
+%-------------------Math-------------------
+% Sets
+\newcommand{\Nb}{\mathbb{N}}
+\newcommand{\Zb}{\mathbb{Z}}
+\newcommand{\Qb}{\mathbb{Q}}
+\newcommand{\Rb}{\mathbb{R}}
+\newcommand{\Cb}{\mathbb{C}}
+\newcommand{\Fb}{\mathbb{F}}
+\newcommand{\Uc}{\mathcal{U}}
+\newcommand{\Cc}{\mathcal{C}}
+\newcommand{\Ic}{\mathcal{I}}
+\newcommand{\field}{\mathbf{k}}
+\newcommand{\vb}{\mathbf{v}}
+\newcommand{\tensor}{\otimes_{\category}}
+\newcommand{\op}{\text{op}}
+
+% Operators
+\DeclareMathOperator{\ob}{ob}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\cod}{cod}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\id}{id}
+\DeclareMathOperator{\mor}{mor}
+\DeclareMathOperator{\Span}{span}
+\DeclareMathOperator{\offset}{Offset}
+
+%% Categories
+\newcommand{\category}{\mathcal{C}}
+\newcommand{\categoryop}{\category^{\op}}
+\newcommand{\catname}[1]{\normalfont\mathsf{#1}}
+\newcommand{\comma}[2]{\left(#1\downarrow #2\right)}
+\newcommand{\Vect}{\catname{Vec}_{\field}}
+\newcommand{\Mod}[2]{\prescript{}{#1}{\catname{Mod}}_{#2}}
+\newcommand{\Set}{\catname{Set}}
+\newcommand{\Rep}[1]{\Vect^{#1}}
+\newcommand{\RepP}{\Rep{\category}}
+\newcommand{\RepPop}{\Rep{\category^{\op}}}
+\newcommand{\Ab}{\catname{Ab}}
+\newcommand{\pathalgebra}{\field\category}
+\newcommand{\pathalgebraop}{\pathalgebra^{\op}}
+\newcommand{\Top}{\catname{Top}}
+
+% Math Enviroments
+\numberwithin{equation}{chapter}
+\newtheorem{theorem}{Theorem}
+\numberwithin{theorem}{chapter}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma} 
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{claim}[theorem]{Claim}
+\theoremstyle{definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{remarks}[theorem]{Remarks}
+\newtheorem{definition}[theorem]{Definition}
+
+% Miscellenous
+\newcommand{\defeq}{\vcentcolon=}
+\newcommand{\eqdef}{=\vcentcolon}
+\newcommand{\qand}{\quad\text{and}\quad}
+\newcommand{\dual}[1]{#1^*}
+
+\newcommand{\SmallMatrix}[4]{\left[\begin{smallmatrix}
+    #1 & #2\\
+    #3 & #4
+\end{smallmatrix}\right]}
+
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}%
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}%
+% Swap the definition of \abs* and \norm*, so that \abs
+% and \norm resizes the size of the brackets, and the 
+% starred version does not.
+\makeatletter
+\let\oldabs\abs
+\def\abs{\@ifstar{\oldabs}{\oldabs*}}
+%
+\let\oldnorm\norm
+\def\norm{\@ifstar{\oldnorm}{\oldnorm*}}
+\makeatother
+
+%-------------------Bibliography-------------------
+\addbibresource{references.bib}
+
+%-------------------Titles-------------------
+\setcounter{secnumdepth}{1}
+\titleclass{\chapter}{straight}
+% \titleformat{〈command 〉}[〈shape〉]{〈format〉}{〈label 〉}{〈sep〉}{〈before-code〉}[〈after-code〉]
+\titleformat{\chapter}{\normalfont\Large\center\scshape}{\thechapter}{0.5em}{}
+\titlespacing*{\chapter}{0pt}{1em}{0.5em}
+\titleformat{\section}{\normalfont\large\center\scshape}{\thesection}{0.5em}{}
+\titleformat{\subsection}[runin]{\normalfont\bfseries}{\thesubsection}{}{}
+
+
+%-------------------TOC-------------------
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+\setcounter{tocdepth}{1}
+\settocbibname{References}
+
+% \titlecontents{〈section〉}[〈left〉]{〈above-code〉}{〈numbered-entry-format〉}{〈numberless-entry-format〉}{〈filler-page-format〉}[〈below-code〉]
+\titlecontents{chapter}[0.5em]{}{\contentslabel{2.3em}\normalfont\scshape}{\hspace*{-2.3em}}{\titlerule*[1pc]{.}\contentspage}
+\titlecontents{section}[3.8em]{}{\contentslabel{2.3em}\normalfont\scshape}{\hspace*{-2.3em}}{\titlerule*[1pc]{.}\contentspage}
+
+
+%-------------------Page Numbering-------------------
+\makeatletter
+    \newcommand\frontmatter{%
+        \cleardoublepage
+    %\@mainmatterfalse
+    \pagenumbering{roman}}
+
+    \newcommand\mainmatter{%
+        \cleardoublepage
+    % \@mainmattertrue
+    \pagenumbering{arabic}}
+
+    \newcommand\backmatter{%
+    \if@openright
+        \cleardoublepage
+    \else
+        \clearpage
+    \fi
+    % \@mainmatterfalse
+    }
+\makeatother
+
+%-------------------Miscellenous-------------------
+\newcommand{\textdef}[1]{\textit{#1}}
+
+
+
+
+
+
+
+

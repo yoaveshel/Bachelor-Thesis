@@ -1,0 +1,38 @@
+\documentclass[12pt,vu]{adammath}
+\usepackage{preamble}
+
+\title{On the Decomposition of Pointwise Finite Dimensional Persistence Modules}
+\author[y.eshel@student.vu.nl, 2660535]{Yoav Eshel}
+\what{Bachelor thesis}
+\programme{Bachelor Mathematics}
+\track{Algebra and Geometry}
+\supervisor{Dr. Magnus Botnan}
+\secondgrader{Dr. Ilke Canakci}
+\coverimage{\includegraphics[scale=0.2]{cover}}
+
+
+\begin{document}
+\maketitle
+
+\frontmatter
+\begin{abstract}
+    We show that any persistence module $M\colon\category\to\Vect$ over a small category $\category$ which is pointwise finite dimensional admits an essentially unique decomposition into indecomposables with local endomorphism rings.
+    We start by defining a tensor product of persistence modules and proving a tensor-hom adjunction.
+    This is then used to prove that pointwise finite dimensional persistence modules are pure-injective, which is key for the proof of the existence of an indecomposable summand from which the existence of the decomposition follows.
+    Then an adaptation of the Krull-Remak-Schmidt-Azumaya Theorem shows that the decomposition is essentially unique.
+\end{abstract}
+
+\tableofcontents
+
+\mainmatter
+\input{chapters/introduction.tex}
+\input{chapters/persistenceModules.tex}
+\input{chapters/existence.tex}
+\input{chapters/uniqueness.tex}
+\input{chapters/conclusion.tex}
+
+\printbibliography[title=References]
+
+\appendix
+
+\end{document}
